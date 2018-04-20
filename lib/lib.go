@@ -1,29 +1,34 @@
 package lib
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
+	"io/ioutil"
 	"os"
-	"github.com/spiegel-im-spiegel/logf"
+
 	"github.com/mattn/go-isatty"
+	"github.com/russross/blackfriday"
+	"github.com/spiegel-im-spiegel/logf"
 )
+
 //	ScanLine()
 //	1行読み込みを行います。
-func ScanLine() string {
-	logf.Println("Scanner使って一行読み込み")
-	fmt.Print("input ")
+func ScanLine(why string) string {
+	fmt.Print(why)
+	fmt.Print("input :")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	scntext := scanner.Text()
 	fmt.Println("input is", scntext)
 	return scntext
 }
+
 /*	IsTerminal
-	
+
 	Terminalかどうかを判定します
-	
+
 */
-func IsTerminal(check bool, cyg bool, term string) (bool , bool, string) {
+func IsTerminal(check bool, cyg bool, term string) (bool, bool, string) {
 
 	if isatty.IsTerminal(os.Stdout.Fd()) {
 		term = "Terminal"
@@ -41,4 +46,22 @@ func IsTerminal(check bool, cyg bool, term string) (bool , bool, string) {
 		cyg = false
 		return check, cyg, term
 	}
+}
+
+func Markdown4html() {
+	gfn := "ファイル名を入力してください\n"
+	md, err := ioutil.ReadFile(ScanLine("Markdown" + gfn))
+	if err != nil {
+		logf.Warn(err)
+	}
+	html := blackfriday.MarkdownBasic(md)
+	dir, _ := os.Getwd()
+	fn := ScanLine(gfn)
+	file, err := os.OpenFile(dir+"/"+fn, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if err != nil {
+		logf.Warn(err)
+	}
+	defer file.Close()
+
+	ioutil.WriteFile(fn, html, 0666)
 }
