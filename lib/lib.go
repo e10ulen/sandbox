@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 
 	"github.com/mattn/go-isatty"
@@ -64,4 +65,13 @@ func Markdown4html() {
 	defer file.Close()
 
 	ioutil.WriteFile(fn, html, 0666)
+}
+
+//	簡易的なサーバー機能追加
+func MiniServe(port, dir string) {
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(dir))))
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		logf.Fatal("ListenAndServe: ", err)
+	}
 }

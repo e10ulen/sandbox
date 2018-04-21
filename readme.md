@@ -37,6 +37,8 @@ ScanLine()関数を改修。
 ScanLine(args)と引数を要求するようにし、  
 引数には適正な物、例えば今回の実装で使っている場面として、
 このような形にしている。  
+servフォルダより簡易サーバ実装しました。  
+
 ``
 
 	gfn := "ファイル名を入力してください\n"
@@ -48,11 +50,18 @@ ScanLine(args)と引数を要求するようにし、
 	ioutil.WriteFile(fn, html, 0666)
 ``
 
+## servフォルダについて
+小さな簡易サーバ機能付加の練習
+
 ##  使い方一覧
+argsについてはlibフォルダについてを参照 
+
+
 ``  
 package main  
   
 import (  
+    "os"
     "fmt"  
     "github.com/e10ulen/sandbox/lib"  
 )  
@@ -60,11 +69,15 @@ import (
 func main(){  
     fmt.Println("実装済みの物の使い方？")  
     fmt.Println("Scanner使った一行読み込み")  
-    lib.ScanLine()  
+    lib.ScanLine(args)  
     fmt.Println("Terminalかの判定処理")  
     lib.IsTerminal()  
     fmt.Println("Markdown4html")  
     lib.Markdown4html()  
+    fmt.Println("サーバー起動します")  
+    port := "9090"  
+    dir, _ := os.Getwd()  
+    lib.MiniServe(port, dir)  
 }  
 ``
 
