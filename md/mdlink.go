@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	text := "URLを入力してください"
+	text := "URLを入力してください\n"
 	url := lib.ScanLine(text)
 	link, err := mklink.New(url)
 	if err != nil {
