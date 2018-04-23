@@ -55,7 +55,7 @@ func Markdown4html() {
 	if err != nil {
 		logf.Warn(err)
 	}
-	html := blackfriday.MarkdownBasic(md)
+	html := blackfriday.MarkdownCommon(md)
 	dir, _ := os.Getwd()
 	fn := ScanLine(gfn)
 	file, err := os.OpenFile(dir+"/"+fn, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
