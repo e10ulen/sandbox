@@ -4,13 +4,18 @@ import (
 	"bufio"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 
+	"github.com/comail/colog"
 	"github.com/mattn/go-isatty"
 	"github.com/russross/blackfriday"
-	"github.com/spiegel-im-spiegel/logf"
 )
+
+func logset() {
+	colog.Register()
+}
 
 //	ScanLine()
 //	1行読み込みを行います。
@@ -50,17 +55,18 @@ func IsTerminal(check bool, cyg bool, term string) (bool, bool, string) {
 }
 
 func Markdown4html() {
+	logset()
 	gfn := "ファイル名を入力してください\n"
 	md, err := ioutil.ReadFile(ScanLine("Markdown" + gfn))
 	if err != nil {
-		logf.Warn(err)
+		log.Print("w: ", err)
 	}
 	html := blackfriday.MarkdownCommon(md)
 	dir, _ := os.Getwd()
 	fn := ScanLine(gfn)
 	file, err := os.OpenFile(dir+"/"+fn, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
 	if err != nil {
-		logf.Warn(err)
+		log.Print("w: ", err)
 	}
 	defer file.Close()
 
@@ -72,6 +78,6 @@ func MiniServe(port, dir string) {
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(dir))))
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
-		logf.Fatal("ListenAndServe: ", err)
+		log.Print("e:ListenAndServe: ", err)
 	}
 }
