@@ -1,0 +1,7 @@
+2018-04-23T17:31:28.708+09:00	INFO	sena-e10ulen	6642	sena	1.0.0	this is info	main	[main.go:17]
+2018-04-23T17:31:28.708+09:00	INFO	sena-e10ulen	6642	sena	1.0.0	msg : hogger	main	[main.go:18]
+2018-04-23T17:31:28.708+09:00	WARNING	sena-e10ulen	6642	sena	1.0.0	this is warning	main	[main.go:19]
+2018-04-23T17:31:28.708+09:00	ERROR	sena-e10ulen	6642	sena	1.0.0	this is Error	main	[main.go:20]
+2018-04-23T17:31:28.708+09:00	DEBUG	sena-e10ulen	6642	sena	1.0.0	this is debug hogeFunc	hogeFunc	[main.go:6]
+2018-04-23T17:31:28.708+09:00	INFO	sena-e10ulen	6642	sena	1.0.0	call hogeFunc	hogeFunc	[main.go:7]
+2018-04-23T17:31:28.708+09:00	DEBUG	sena-e10ulen	6642	sena	1.0.0	this is debug xxx	main	[main.go:25]
