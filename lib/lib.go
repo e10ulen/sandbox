@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/comail/colog"
 	"github.com/mattn/go-isatty"
@@ -80,4 +82,31 @@ func MiniServe(port, dir string) {
 	if err != nil {
 		log.Print("e:ListenAndServe: ", err)
 	}
+}
+
+//	スライス生成
+func SliceGenerate(n, m int) []string {
+	arr := make([]string, n)
+	for i := range arr {
+		arr[i] = fmt.Sprintf("%2d", i+m)
+	}
+	return arr
+}
+
+//	スライスシャッフル
+func SliceShuffle(data []string) {
+	n := len(data)
+	rand.Seed(time.Now().UnixNano())
+	for i := n - 1; i >= 0; i-- {
+		j := rand.Intn(i + 1)
+		data[i], data[j] = data[j], data[i]
+	}
+}
+
+//	スライス削除
+func SliceUnset(s []string, i int) []string {
+	if i >= len(s) {
+		return s
+	}
+	return append(s[:i], s[i+1:]...)
 }
