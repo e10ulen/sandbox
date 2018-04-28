@@ -4,11 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
 	"os"
+	"strconv"
 	"strings"
 
-	"github.com/comail/colog"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -18,12 +17,11 @@ const (
 )
 
 func main() {
-	colog.Register()
-
 	app := kingpin.New("todo", "a Todo Command.")
 	listTask(app)
 	addTask(app)
 	doneTask(app)
+	undoneTask(app)
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 }
 
@@ -32,7 +30,7 @@ func listTask(app *kingpin.Application) {
 	cmd.Action(func(c *kingpin.ParseContext) error {
 		file, err := os.Open("todo.txt")
 		if err != nil {
-			log.Print("w: ", err)
+			return err
 		}
 		defer file.Close()
 		buf := bufio.NewReader(file)
@@ -40,7 +38,6 @@ func listTask(app *kingpin.Application) {
 		for {
 			b, _, err := buf.ReadLine()
 			if err != nil {
-				log.Print("w: ", err)
 				if err != io.EOF {
 					return err
 				}
@@ -64,19 +61,145 @@ func addTask(app *kingpin.Application) {
 	cmd.Action(func(c *kingpin.ParseContext) error {
 		file, err := os.OpenFile("todo.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 		if err != nil {
-			log.Print("w: ", err)
+			return err
 		}
 		defer file.Close()
-		fmt.Fprintln(file, strings.Join(*text, "\n"))
+		fmt.Fprintln(file, strings.Join(*text, " "))
 		return nil
 	})
 }
-
 func doneTask(app *kingpin.Application) {
 	cmd := app.Command("done", "Done Task")
-	text := cmd.Arg("number", "done task").Int()
+	text := cmd.Arg("number", "done task").Strings()
 	cmd.Action(func(c *kingpin.ParseContext) error {
-		log.Print("w: ", *text)
-		return nil
+
+		ids := []int{}
+
+		for _, no := range *text {
+			id, err := strconv.Atoi(no)
+			if err != nil {
+				return err
+			}
+			ids = append(ids, id)
+		}
+
+		//	仮のファイル作成（テンポラリファイル）
+		w, err := os.Create("todo.txt_")
+		if err != nil {
+			return err
+		}
+		defer w.Close()
+		//	todoファイル本体の読み込み
+		f, err := os.Open("todo.txt")
+		if err != nil {
+			return err
+		}
+		buf := bufio.NewReader(f)
+		number := 1
+		for {
+			buf, _, err := buf.ReadLine()
+			if err != nil {
+				if err != io.EOF {
+					return err
+				}
+				break
+			}
+			match := false
+			for _, id := range ids {
+				if id == number {
+					match = true
+				}
+			}
+			line := strings.TrimSpace(string(buf))
+			if match && !strings.HasPrefix(line, "-") {
+				_, err = fmt.Fprintf(w, "-%s\n", line)
+				if err != nil {
+					return err
+				}
+			} else {
+				_, err = fmt.Fprintf(w, "%s\n", line)
+				if err != nil {
+					return err
+				}
+			}
+			number++
+		}
+		f.Close()
+		w.Close()
+
+		err = os.Remove("todo.txt")
+		if err != nil {
+			return err
+		}
+
+		return os.Rename("todo.txt_", "todo.txt")
+	})
+}
+
+func undoneTask(app *kingpin.Application) {
+	cmd := app.Command("undone", "Undone Task")
+	text := cmd.Arg("number", "undone task").Strings()
+	cmd.Action(func(c *kingpin.ParseContext) error {
+
+		ids := []int{}
+
+		for _, no := range *text {
+			id, err := strconv.Atoi(no)
+			if err != nil {
+				return err
+			}
+			ids = append(ids, id)
+		}
+
+		//	仮のファイル作成（テンポラリファイル）
+		w, err := os.Create("todo.txt_")
+		if err != nil {
+			return err
+		}
+		defer w.Close()
+		//	todoファイル本体の読み込み
+		f, err := os.Open("todo.txt")
+		if err != nil {
+			return err
+		}
+		buf := bufio.NewReader(f)
+		number := 1
+		for {
+			buf, _, err := buf.ReadLine()
+			if err != nil {
+				if err != io.EOF {
+					return err
+				}
+				break
+			}
+			match := false
+			for _, id := range ids {
+				if id == number {
+					match = true
+				}
+			}
+			line := strings.TrimSpace(string(buf))
+			if match && strings.HasPrefix(line, "-") {
+				_, err = fmt.Fprintf(w, "%s\n", string(line[1:]))
+				if err != nil {
+					return err
+				}
+			} else {
+				_, err = fmt.Fprintf(w, "%s\n", line)
+				if err != nil {
+					return err
+				}
+			}
+			number++
+		}
+		f.Close()
+		w.Close()
+
+		err = os.Remove("todo.txt")
+		if err != nil {
+			return err
+		}
+
+		return os.Rename("todo.txt_", "todo.txt")
 	})
 }
