@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	homedir "github.com/mitchellh/go-homedir"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -23,7 +24,7 @@ func main() {
 	//	OS	振り分け後、ファイルパス類を各コマンドに渡す。
 	filename := ""
 	existCurTodo := false
-	curDir, err := os.Getwd()
+	curDir, err := homedir.Dir()
 	if err == nil {
 		filename = filepath.Join(curDir, todo_filename)
 		_, err = os.Stat(filename)

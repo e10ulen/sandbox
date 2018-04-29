@@ -40,6 +40,11 @@ lib.ScanLineに組み込まれているので必要なし。
 ### testフォルダ
 libの関数追加や、libの関数をすぐ使いたい時に  
   
+### homedirフォルダ
+[mitchellh/go-homedir][12]を使って[mattn/todo][3]の処理だとバグる  
+`` os.Getwd() ``の代わりに使用するためのテスト  
+なんかググってもまともに情報出てこないし、  
+とりあえず、valueがいくつひつようなのかとかのテストしたフォルダ
 ## libフォルダ
 lib.xxxxという形でライブラリとし、  
 
@@ -74,3 +79,4 @@ lib.xxxxという形でライブラリとし、
 [9]:https://github.com/marcusolsson/tui-go
 [10]:https://github.com/comail/colog
 [11]:https://gopkg.in/alecthomas/kingpin.v2
+[12]:https://github.com/mitchellh/go-homedir
