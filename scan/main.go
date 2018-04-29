@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
+
 	"github.com/spiegel-im-spiegel/logf"
 )
 

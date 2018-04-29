@@ -1,88 +1,76 @@
 # これなに
-golang スクラップ（書きかけだったり失敗作置き場
-一応libフォルダには使えるスクラップが突っ込まれている。
-バージョンについてはなんとなく記載したかった。
-尚、ゴールはない。
+[e10ulen][1]の習作プログラム集です。  
+各フォルダで使ってるライブラリが違ったり、手動テストしてたり、後は自作プログラムのライブラリだったりします。  
 
-## libのバージョンについて
-1.4
+以下は各フォルダについての説明と、現在一番まともに改修を繰り返しているtodoアプリの説明です。  
 
-## testフォルダについて
-libに関数追加するときに大体の動きを把握するために
-試し呼びをするためのフォルダ
-
-## mastodonフォルダについて
-tui使って、[qqw](https://github.com/e10ulen/qqw)からtootとtimeline見る部分切り出して、  
-ちょっとGUIっぽくしたかった（  
-
-## mdフォルダについて
-[mklink](https://github.com/spiegel-im-spiegel/mklink)を使って自分なりに使えたらなと思った失敗作、  
-近日中には書き直す。  
-### mdフォルダ更新
-[blackfriday](https://github.com/russross/blackfriday)のv1を使って、htmlへ変換して、ファイルとして保存することに成功したので、  
-libとして使えるように書いた  
-内部的にlibのScanLineを使うので、ScanLineにも改修を施した。
-
-## termフォルダについて
-[go-isatty](https://github.com/mattn/go-isatty)を使ってターミナルかどうかの判定テストしてみたかった。
-
-## scanフォルダについて
-bufio.Scannerの一行読み込みを使いたかった。
-
-## libフォルダについて
-色々と自分で使い勝手のいい関数を作るためのフォルダ。  
-termフォルダの判定とかも組み込む予定。  
-mdフォルダよりMarkdownファイルをhtmlに変換する簡易的な物を実装  
-ScanLine()関数を改修。  
-ScanLine(args)と引数を要求するようにし、  
-引数には適正な物、例えば今回の実装で使っている場面として、
-このような形にしている。  
-servフォルダより簡易サーバ実装しました。  
-
-``
-
-	gfn := "ファイル名を入力してください\n"
-	fn := ScanLine(gfn)
-	file, err := os.OpenFile(dir+"/"+fn, ...
-    ...
-    	defer file.Close()
-
-	ioutil.WriteFile(fn, html, 0666)
-``
-
-## servフォルダについて
-小さな簡易サーバ機能付加の練習
-
-##  使い方一覧
-argsについてはlibフォルダについてを参照 
-
-##  blackjackフォルダについて
+### blackjackフォルダ
 現在[プログラミング入門者からの卒業試験は『ブラックジャック』を開発すべし](https://bit.ly/2HtrQiC)を読み、golangで実装できないかとしています  
-(items以下のURLが長いので直打ちするの怖い(pushするときだけテザリングでネット繋いでる)) 
-ドローすることはできたので、後はポイント換算、描画、勝敗
-かけなさそう（諦めモード
+(items以下のURLが長いので直打ちするの怖い(pushするときだけテザリングでネット繋いでる))  
+### kingpinフォルダ
+todoアプリの前段階、色々とテストした場所。  
+yamlを読んでみたり、jsonを読んでみたりした。  
+結局todoは標準ライブラリを使ってファイル読み書きすることにした。  
 
-``  
-package main  
-  
-import (  
-    "os"
-    "fmt"  
-    "github.com/e10ulen/sandbox/lib"  
-)  
-  
-func main(){  
-    fmt.Println("実装済みの物の使い方？")  
-    fmt.Println("Scanner使った一行読み込み")  
-    lib.ScanLine(args)  
-    fmt.Println("Terminalかの判定処理")  
-    lib.IsTerminal()  
-    fmt.Println("Markdown4html")  
-    lib.Markdown4html()  
-    fmt.Println("サーバー起動します")  
-    port := "9090"  
-    dir, _ := os.Getwd()  
-    lib.MiniServe(port, dir)  
-}  
-``
+### tuiフォルダ
+[marcusolsson/tui-go][9]を使ってテキストユーザインタフェースの実装をしてみたかった  
 
+### mdフォルダ
+- [russross/blackfriday][7]
+- [spiegel-im-spiegel/mklink][8]
+  
+以上二点を使ったテスト、blackfridayの方はlibフォルダにてMarkdown4html関数に使っています。  
+  
+### servフォルダ
+特筆すべきことはないが、net/httpのサーバ立ち上げについてのテスト。  
+lib.MiniServe関数に組み込まれているのはこれ  
+
+### termフォルダ
+[mattn/go-isatty][2]
+### scrapフォルダ
+- [PuerkitoBio/goquery][5]
+- [nakabonne/netsurfer][6]
+  
+以上二点の使い方テスト？を行ったフォルダ  
+  
+### scanフォルダ
+特筆すべきことはないが、bufioとかの使い方をテストしたかっただけ、  
+lib.ScanLineに組み込まれているので必要なし。 
+
+### testフォルダ
+libの関数追加や、libの関数をすぐ使いたい時に  
+  
+## libフォルダ
+lib.xxxxという形でライブラリとし、  
+
+- 簡易サーバ  
+- Markdownをhtml化  
+- 標準入力の簡素化  
+- スライスの生成  
+- スライスシャッフル  
+- スライスの削除  
+
+以上六点を提供する自作ライブラリである。  
+
+
+## todoフォルダ
+- [mattn/todo][3]  
+- [chooyan/todo][4]  
+
+以上二点を参考にkingpinで作成したtodoアプリである。  
+現状はまだバグっているので対処する。  
+## よく使うライブラリ
+- [comail/colog][10]  
+- [alecthomas/kingpin.v2][11]  
+  
+[1]:https://github.com/e10ulen
+[2]:https://github.com/mattn/go-isatty
+[3]:https://github.com/mattn/todo
+[4]:https://github.com/chooyan/todo
+[5]:https://github.com/PuerkitoBio/goquery
+[6]:https://github.com/nakabonne/netsurfer
+[7]:https://github.com/russross/blackfriday
+[8]:https://github.com/spiegel-im-spiegel/mklink
+[9]:https://github.com/marcusolsson/tui-go
+[10]:https://github.com/comail/colog
+[11]:https://gopkg.in/alecthomas/kingpin.v2
