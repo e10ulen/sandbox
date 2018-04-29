@@ -5,16 +5,17 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
-	"path/filepath"
+
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
 const (
-	done_mark1 = "\u2610"
-	done_mark2 = "\u2611"
-	todo_filename ".todo"
+	done_mark1    = "\u2610"
+	done_mark2    = "\u2611"
+	todo_filename = ".todo"
 )
 
 func main() {
@@ -104,7 +105,7 @@ func doneTask(app *kingpin.Application, filename string) {
 		}
 
 		//	仮のファイル作成（テンポラリファイル）
-		w, err := os.Create(filename +"_")
+		w, err := os.Create(filename + "_")
 		if err != nil {
 			return err
 		}
@@ -152,7 +153,7 @@ func doneTask(app *kingpin.Application, filename string) {
 			return err
 		}
 
-		return os.Rename(filename + "_", filename)
+		return os.Rename(filename+"_", filename)
 	})
 }
 
@@ -172,7 +173,7 @@ func undoneTask(app *kingpin.Application, filename string) {
 		}
 
 		//	仮のファイル作成（テンポラリファイル）
-		w, err := os.Create(filename+"_")
+		w, err := os.Create(filename + "_")
 		if err != nil {
 			return err
 		}
@@ -241,7 +242,7 @@ func deleteTask(app *kingpin.Application, filename string) {
 		}
 
 		//	仮のファイル作成（テンポラリファイル）
-		w, err := os.Create(filename+"_")
+		w, err := os.Create(filename + "_")
 		if err != nil {
 			return err
 		}
