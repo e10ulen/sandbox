@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/e10ulen/sandbox/lib"
@@ -22,6 +23,7 @@ func main() {
 	getMessage(app) //	git commit -m
 	pushRemote(app) //	git push -u
 	getCommit(app)  //	git log --date=short --no-merges --pretty=format:"%cd (@%cn) %h %s"
+	fullCommand(app)
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 }
 func getCommit(app *kingpin.Application) {
@@ -57,6 +59,20 @@ func pushRemote(app *kingpin.Application) {
 	cmd.Action(func(c *kingpin.ParseContext) error {
 		push, _ := exec.Command("git", "push", "-u").CombinedOutput()
 		log.Print(string(push))
+		return nil
+	})
+}
+
+func fullCommand(app *kingpin.Application) {
+	cmd := app.Command("f", "add &commit &push to one command.")
+	text := cmd.Arg("text", "text to commit message").Strings()
+	cmd.Action(func(c *kingpin.ParseContext) error {
+		tm := time.Now().Format(date_format)
+		addf, _ := exec.Command("git", "add", "--all").CombinedOutput()
+		msg := strings.Join(*text, " ")
+		cmmt, _ := exec.Command("git", "commit", "-m", "[Commit]"+tm+" "+msg).CombinedOutput()
+		push, _ := exec.Command("git", "push", "-u").CombinedOutput()
+		log.Print(string(addf), string(cmmt), string(push))
 		return nil
 	})
 }
