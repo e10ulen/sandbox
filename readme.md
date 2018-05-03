@@ -74,14 +74,13 @@ lib.xxxxという形でライブラリとし、
 時期にローカルタイムラインとホームタイムラインをコマンドで分け実装します。  
 なおかつ、ローカルタイムラインはストリームに対応します。  
 一応すでに使える状態であります。
-``  
-server: https://example.com/  
-clientid: xxxxxx  
-clientsecret: xxxxxx  
-emailaddress: example@example.jp  
-password: xxxxxxxxx  
-``  
-このような書式のファイルをHOME直下に.mastodon.yamlとして置いてください。  
+msdフォルダにあるexample.yamlを書き換えてHOME直下に.mastodon.yamlとして置いてください。  
+
+## ggフォルダ
+git commit を適宣楽にしようとして作ってるgolang書き始めた時から色々書き換えたりしてるツールです。  
+- [alecthomas/kingpin.v2][11]  
+
+
 ## よく使うライブラリ
 - [comail/colog][10]  
 - [alecthomas/kingpin.v2][11]  
