@@ -70,8 +70,8 @@ lib.xxxxという形でライブラリとし、
 
 以上二点を参考にkingpinで作成したtodoアプリである。  
 済:現状はまだバグっているので対処する。  
-[e10ulen/todo][https://github.com/e10ulen/todo]に移動しました。
-
+[e10ulen/todo][https://github.com/e10ulen/todo]に移動しました。  
+  
 
 ## msdフォルダ
 - [e10ulen/sandbox](https://github.com/e10ulen/sandbox/)  
@@ -83,6 +83,8 @@ lib.xxxxという形でライブラリとし、
 なおかつ、ローカルタイムラインはストリームに対応します。  
 一応すでに使える状態であります。
 msdフォルダにあるexample.yamlを書き換えてHOME直下に.mastodon.yamlとして置いてください。  
+[e10ulen/msd](https://github.com/e10ulen/msd)に移動しました。  
+  
 
 ## ggフォルダ
 git commit を適宣楽にしようとして作ってるgolang書き始めた時から色々書き換えたりしてるツールです。  
