@@ -70,6 +70,8 @@ lib.xxxxという形でライブラリとし、
 
 以上二点を参考にkingpinで作成したtodoアプリである。  
 済:現状はまだバグっているので対処する。  
+[e10ulen/todo][https://github.com/e10ulen/todo]に移動しました。
+
 
 ## msdフォルダ
 - [e10ulen/sandbox](https://github.com/e10ulen/sandbox/)  
