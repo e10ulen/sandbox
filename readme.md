@@ -63,7 +63,25 @@ lib.xxxxという形でライブラリとし、
 - [chooyan/todo][4]  
 
 以上二点を参考にkingpinで作成したtodoアプリである。  
-現状はまだバグっているので対処する。  
+済:現状はまだバグっているので対処する。  
+
+## msdフォルダ
+- [e10ulen/sandbox](https://github.com/e10ulen/sandbox/)  
+- [alecthomas/kingpin][11]  
+- [mattn/go-mastodon][13]  
+自作アプリ、todoのソースを見ながらkingpinを使い、mastodonに接続するツールです。  
+現在、タイムライン（ローカルタイムライン）とトゥートに対応しています。  
+時期にローカルタイムラインとホームタイムラインをコマンドで分け実装します。  
+なおかつ、ローカルタイムラインはストリームに対応します。  
+一応すでに使える状態であります。
+``  
+server: https://example.com/  
+clientid: xxxxxx  
+clientsecret: xxxxxx  
+emailaddress: example@example.jp  
+password: xxxxxxxxx  
+``  
+このような書式のファイルをHOME直下に.mastodon.yamlとして置いてください。  
 ## よく使うライブラリ
 - [comail/colog][10]  
 - [alecthomas/kingpin.v2][11]  
@@ -80,3 +98,4 @@ lib.xxxxという形でライブラリとし、
 [10]:https://github.com/comail/colog
 [11]:https://gopkg.in/alecthomas/kingpin.v2
 [12]:https://github.com/mitchellh/go-homedir
+[13]:https://github.com/mattn/go-mastodon

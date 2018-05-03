@@ -69,7 +69,8 @@ func listTask(app *kingpin.Application, filename string) {
 			if strings.HasPrefix(line, "-") {
 				fmt.Printf("%s %03d: %s\n", done_mark2, number, strings.TrimSpace(string(line[1:])))
 			} else {
-				fmt.Printf("%s %03d: %s\n", done_mark1, number, strings.TrimSpace(line))
+				fmt.Printf("%s %03d: %s\n"
+				, done_mark1, number, strings.TrimSpace(line))
 			}
 			number++
 		}
