@@ -7,6 +7,7 @@
 ### blackjackフォルダ
 現在[プログラミング入門者からの卒業試験は『ブラックジャック』を開発すべし](https://bit.ly/2HtrQiC)を読み、golangで実装できないかとしています  
 (items以下のURLが長いので直打ちするの怖い(pushするときだけテザリングでネット繋いでる))  
+
 ### kingpinフォルダ
 todoアプリの前段階、色々とテストした場所。  
 yamlを読んでみたり、jsonを読んでみたりした。  
@@ -27,6 +28,7 @@ lib.MiniServe関数に組み込まれているのはこれ
 
 ### termフォルダ
 [mattn/go-isatty][2]
+
 ### scrapフォルダ
 - [PuerkitoBio/goquery][5]
 - [nakabonne/netsurfer][6]
@@ -87,9 +89,9 @@ msdフォルダにあるexample.yamlを書き換えてHOME直下に.mastodon.yam
   
 
 ## ggフォルダ
-git commit を適宣楽にしようとして作ってるgolang書き始めた時から色々書き換えたりしてるツールです。  
 - [alecthomas/kingpin.v2][11]  
-
+git commit を適宣楽にしようとして作ってるgolang書き始めた時から色々書き換えたりしてるツールです。  
+[e10ulen/gg](https://github.com/e10ulen/gg)に移動しました。
 
 ## よく使うライブラリ
 - [comail/colog][10]  
