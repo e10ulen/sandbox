@@ -87,6 +87,30 @@ lib.xxxxという形でライブラリとし、
 msdフォルダにあるexample.yamlを書き換えてHOME直下に.mastodon.yamlとして置いてください。  
 [e10ulen/msd](https://github.com/e10ulen/msd)に移動しました。  
   
+## msd2
+- [e10ulen/msd](https://github.com/e10ulen/msd)
+- [mattn/go-mastodon][13]
+- [mattn/go-gtk](https://github.com/mattn/go-gtk)
+
+自作アプリ、[e10ulen/msd](https://github.com/e10ulen/msd) を元にmattnさんのgo-gtkでGUIを付加したものになります。  
+現在、ローカルタイムラインを描画します（２０件）。  
+[e10ulen/msd](https://github.com/msd)と同じ設定ファイルを使用するようになってます。  
+
+以下のdisplayname内に `` disp = strings.Replace(disp, "FooBarBaz", "FooBaz", -1) `` を記載すれば置換されます。  
+表示名そのままを描画すると長すぎるのに全部描画しようとするので自らの調整が必要になります。  
+
+さらにその下にあるcontentはTootを取得した際、<p></p>タグや<br />タグを処理するための箇所です。  
+お好みで書き換えてくださいますよう  
+
+``
+
+func func displayname(t *m.Status) string {
+	disp := t.Account.DisplayName
+
+	return disp
+}
+
+``
 
 ## ggフォルダ
 - [alecthomas/kingpin.v2][11]  
