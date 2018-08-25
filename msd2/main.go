@@ -95,7 +95,10 @@ func main() {
 
 func displayname(t *m.Status) string {
 	disp := t.Account.DisplayName
-	disp = strings.Replace(disp, "FooBarBaz", "FooBaz", -1)
+	disp = strings.Replace(disp, "行城白雪/ Weiße Rosa FabriK", "行城白雪", -1)
+	disp = strings.Replace(disp, "🔥藤堂傭兵🔥（避難用）", "藤堂傭兵", -1)
+	disp = strings.Replace(disp, "🔥崎奈🔥@二人ぼっち時間", "崎奈", -1)
+	disp = strings.Replace(disp, "🔥🔥ひと", "うらひと", -1)
 
 	return disp
 }

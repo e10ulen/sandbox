@@ -1,0 +1,68 @@
+.
+├── blackjack
+│   └── main.go
+├── discord
+│   └── main.go
+├── ebi
+│   └── main.go
+├── engo
+│   ├── assets
+│   │   └── textures
+│   └── main.go
+├── fantasy
+│   └── main.go
+├── gtk
+│   └── main.go
+├── homedir
+│   └── main.go
+├── kingpin
+│   └── main.go
+├── lib
+│   └── lib.go
+├── logg
+│   ├── colog.go
+│   ├── gologger.go
+│   └── log
+├── md
+│   ├── md4html.go
+│   └── mdlink.go
+├── msd2
+│   └── main.go
+├── readme.md
+├── rot13
+│   └── main.go
+├── rs
+│   └── main.go
+├── scan
+│   └── main.go
+├── scrap
+│   ├── goquery.go
+│   ├── main.go
+│   └── surfer.go
+├── serv
+│   └── main.go
+├── shindan
+│   ├── main.go
+│   ├── tmp.txt
+│   ├── tmp1.txt
+│   ├── tmp2.txt
+│   └── tmp3.txt
+├── slack
+├── term
+│   ├── isatty.go
+│   └── main.go
+├── termbox
+│   └── main.go
+├── test
+│   ├── m.go
+│   └── main.go
+├── tree.txt
+└── tui
+    ├── chat
+    │   ├── README.md
+    │   ├── main.go
+    │   └── screenshot.png
+    ├── main.go
+    └── memo.md
+
+26 directories, 39 files
