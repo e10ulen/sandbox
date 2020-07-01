@@ -112,6 +112,10 @@ func func displayname(t *m.Status) string {
 
 ``
 
+## upageフォルダ
+-[PuerkitoBio/goquery][14]
+goqueryを使い、避難所からスクレイピングしようとしています。
+
 ## ggフォルダ
 - [alecthomas/kingpin.v2][11]  
 git commit を適宣楽にしようとして作ってるgolang書き始めた時から色々書き換えたりしてるツールです。  
@@ -134,3 +138,4 @@ git commit を適宣楽にしようとして作ってるgolang書き始めた時
 [11]:https://gopkg.in/alecthomas/kingpin.v2
 [12]:https://github.com/mitchellh/go-homedir
 [13]:https://github.com/mattn/go-mastodon
+[14]:https://github.com/PuerkitoBio/goquery
