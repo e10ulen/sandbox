@@ -1,84 +1,125 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"time"
 
-	"github.com/marcusolsson/tui-go"
+	ui "github.com/gizak/termui/v3"
+	"github.com/gizak/termui/v3/widgets"
 )
 
-type post struct {
-	username string
-	message  string
-	time     string
-}
+type nodeValue string
 
-var posts = []post{
-	{username: "john", message: "hi, what's up?", time: Time.Now()},
-	{username: "jane", message: "not much", time: Time.Now()},
+func (nv nodeValue) String() string {
+	return string(nv)
 }
 
 func main() {
-	sidebar := tui.NewVBox(
-		tui.NewLabel("CHANNELS"),
-		tui.NewLabel("general"),
-		tui.NewLabel("random"),
-		tui.NewLabel(""),
-		tui.NewLabel("DIRECT MESSAGES"),
-		tui.NewLabel("slackbot"),
-		tui.NewSpacer(),
-	)
-	sidebar.SetBorder(true)
+	if err := ui.Init(); err != nil {
+		log.Fatalf("failed to initialize termui: %v", err)
+	}
+	defer ui.Close()
 
-	history := tui.NewVBox()
-
-	for _, m := range posts {
-		history.Append(tui.NewHBox(
-			tui.NewLabel(m.time),
-			tui.NewPadder(1, 0, tui.NewLabel(fmt.Sprintf("<%s>", m.username))),
-			tui.NewLabel(m.message),
-			tui.NewSpacer(),
-		))
+	nodes := []*widgets.TreeNode{
+		{
+			Value: nodeValue("Key 1"),
+			Nodes: []*widgets.TreeNode{
+				{
+					Value: nodeValue("Key 1.1"),
+					Nodes: []*widgets.TreeNode{
+						{
+							Value: nodeValue("Key 1.1.1"),
+							Nodes: nil,
+						},
+						{
+							Value: nodeValue("Key 1.1.2"),
+							Nodes: nil,
+						},
+					},
+				},
+				{
+					Value: nodeValue("Key 1.2"),
+					Nodes: nil,
+				},
+			},
+		},
+		{
+			Value: nodeValue("Key 2"),
+			Nodes: []*widgets.TreeNode{
+				{
+					Value: nodeValue("Key 2.1"),
+					Nodes: nil,
+				},
+				{
+					Value: nodeValue("Key 2.2"),
+					Nodes: nil,
+				},
+				{
+					Value: nodeValue("Key 2.3"),
+					Nodes: nil,
+				},
+			},
+		},
+		{
+			Value: nodeValue("Key 3"),
+			Nodes: nil,
+		},
 	}
 
-	historyScroll := tui.NewScrollArea(history)
-	historyScroll.SetAutoscrollToBottom(true)
+	l := widgets.NewTree()
+	l.TextStyle = ui.NewStyle(ui.ColorYellow)
+	l.WrapText = false
+	l.SetNodes(nodes)
 
-	historyBox := tui.NewVBox(historyScroll)
-	historyBox.SetBorder(true)
+	x, y := ui.TerminalDimensions()
 
-	input := tui.NewEntry()
-	input.SetFocused(true)
-	input.SetSizePolicy(tui.Expanding, tui.Maximum)
+	l.SetRect(0, 0, x, y)
 
-	inputBox := tui.NewHBox(input)
-	inputBox.SetBorder(true)
-	inputBox.SetSizePolicy(tui.Expanding, tui.Maximum)
+	ui.Render(l)
 
-	chat := tui.NewVBox(historyBox, inputBox)
-	chat.SetSizePolicy(tui.Expanding, tui.Expanding)
+	previousKey := ""
+	uiEvents := ui.PollEvents()
+	for {
+		e := <-uiEvents
+		switch e.ID {
+		case "q", "<C-c>":
+			return
+		case "j", "<Down>":
+			l.ScrollDown()
+		case "k", "<Up>":
+			l.ScrollUp()
+		case "<C-d>":
+			l.ScrollHalfPageDown()
+		case "<C-u>":
+			l.ScrollHalfPageUp()
+		case "<C-f>":
+			l.ScrollPageDown()
+		case "<C-b>":
+			l.ScrollPageUp()
+		case "g":
+			if previousKey == "g" {
+				l.ScrollTop()
+			}
+		case "<Home>":
+			l.ScrollTop()
+		case "<Enter>":
+			l.ToggleExpand()
+		case "G", "<End>":
+			l.ScrollBottom()
+		case "E":
+			l.ExpandAll()
+		case "C":
+			l.CollapseAll()
+		case "<Resize>":
+			x, y := ui.TerminalDimensions()
+			l.SetRect(0, 0, x, y)
+		}
 
-	input.OnSubmit(func(e *tui.Entry) {
-		history.Append(tui.NewHBox(
-			tui.NewLabel(time.Now().Format("15:04")),
-			tui.NewPadder(1, 0, tui.NewLabel(fmt.Sprintf("<%s>", "john"))),
-			tui.NewLabel(e.Text()),
-			tui.NewSpacer(),
-		))
-		input.SetText("")
-	})
+		if previousKey == "g" {
+			previousKey = ""
+		} else {
+			previousKey = e.ID
+		}
 
-	root := tui.NewHBox(sidebar, chat)
-
-	ui, err := tui.New(root)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	ui.SetKeybinding("Esc", func() { ui.Quit() })
-
-	if err := ui.Run(); err != nil {
-		log.Fatal(err)
+		ui.Render(l)
 	}
 }
