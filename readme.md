@@ -114,7 +114,7 @@ func func displayname(t *m.Status) string {
 
 ## upageフォルダ
 -[PuerkitoBio/goquery][14]
-goqueryを使い、避難所からスクレイピングしようとしています。
+goqueryを使い、「VIPでテキストサイトしようぜ」避難所からスクレイピングしようとしています。
 
 ## ggフォルダ
 - [alecthomas/kingpin.v2][11]  
