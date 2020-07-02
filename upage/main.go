@@ -102,12 +102,16 @@ func main() {
 	selection := doc.Find("dl.thread")
 	innerselection := selection.Find("a")
 	innerselection.Each(func(index int, s *goquery.Selection) {
+		dd := s.Find("dd").Nodes
 		// URLを取得する
 		//	URL取得部分
-		//doc.Find("dl.thread").Each(func(_ int, s *goquery.Selection) {
+
 		url, _ := s.Attr("href")
 		//	置換で間違って入ってる、mailto:sageを除去。
 		replaceURL := strings.Replace(url, "mailto:sage", "", -1)
+
 		fmt.Println(replaceURL)
+		fmt.Println(dd)
+
 	})
 }
