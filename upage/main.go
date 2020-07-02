@@ -22,7 +22,7 @@ func main() {
 		log.Print("e:")
 	}
 	defer res.Body.Close()
-
+	var sliceURL []string
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
 		log.Print("e: url scrapping failed", err)
@@ -35,6 +35,10 @@ func main() {
 		url, _ := s.Attr("href")
 		//	置換で間違って入ってる、mailto:sageを除去。
 		replaceURL := strings.Replace(url, "mailto:sage", "", -1)
-		fmt.Println(index, replaceURL)
+
+		sliceURL = append(sliceURL, replaceURL)
+		fmt.Printf("Nun:%d URL:%s\n", index, replaceURL)
+
 	})
+	fmt.Printf("Slice:%v", len(sliceURL))
 }
