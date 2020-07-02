@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -16,6 +16,11 @@ var threadURL = "http://dawnlight.ovh/test/read.cgi/viptext/1520663900/"
 func main() {
 	//	ロガー
 	colog.Register()
+	file, err := os.OpenFile("thread.md", os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		log.Print("e:", err)
+	}
+	//
 	res, err := http.Get(threadURL)
 	//	スレッド取得に失敗した際のエラー
 	if err != nil {
@@ -27,14 +32,17 @@ func main() {
 	if err != nil {
 		log.Print("e: url scrapping failed", err)
 	}
+	defer file.Close()
 	//	一個ずつの投稿を取得する
 	selection := doc.Find("dl.thread")
 	innerselection := selection.Find("a")
 	innerselection.Each(func(index int, s *goquery.Selection) {
 		//	URL取得部分
+
 		updateurl, _ := s.Attr("href")
 		//	置換で間違って入ってる、mailto:sageを除去。
 		replaceURL := strings.Replace(updateurl, "mailto:sage", "", -1)
-		fmt.Printf("Nun:%d URL:%s\n", index, replaceURL)
+		file.WriteString("[link](" + replaceURL + ")\n")
+
 	})
 }
