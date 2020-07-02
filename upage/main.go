@@ -1,5 +1,20 @@
 package main
 
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+
+	"golang.org/x/text/encoding/japanese"
+
+	"github.com/comail/colog"
+	"golang.org/x/text/transform"
+
+	"github.com/PuerkitoBio/goquery"
+)
+
 func main() {
 	//doc, err := goquery.NewDocument("http://dawnlight.ovh/test/read.cgi/viptext/1520663900/")
 	//if err != nil {
@@ -70,4 +85,29 @@ func main() {
 	//	doc, _ := goquery.NewDocumentFromReader(reader)
 	//	rslt := doc.Find("dl.thread")
 	//	fmt.Println(rslt)
+	colog.Register()
+	url := "http://dawnlight.ovh/test/read.cgi/viptext/1520663900/"
+	res, err := http.Get(url)
+	if err != nil {
+		log.Print("e:")
+	}
+	defer res.Body.Close()
+	utfBody := transform.NewReader(bufio.NewReader(res.Body), japanese.ShiftJIS.NewDecoder())
+
+	doc, err := goquery.NewDocumentFromReader(utfBody)
+	if err != nil {
+		fmt.Print("url scrapping failed")
+	}
+	//一個ずつの投稿を取得する
+	selection := doc.Find("dl.thread")
+	innerselection := selection.Find("a")
+	innerselection.Each(func(index int, s *goquery.Selection) {
+		// URLを取得する
+		//	URL取得部分
+		//doc.Find("dl.thread").Each(func(_ int, s *goquery.Selection) {
+		url, _ := s.Attr("href")
+		//	置換で間違って入ってる、mailto:sageを除去。
+		replaceURL := strings.Replace(url, "mailto:sage", "", -1)
+		fmt.Println(replaceURL)
+	})
 }
