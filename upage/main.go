@@ -45,4 +45,5 @@ func main() {
 		file.WriteString(replaceURL + "\n")
 
 	})
+	Upage()
 }
