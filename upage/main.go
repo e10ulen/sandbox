@@ -16,7 +16,7 @@ var threadURL = "http://dawnlight.ovh/test/read.cgi/viptext/1520663900/"
 func main() {
 	//	ロガー
 	colog.Register()
-	file, err := os.OpenFile("thread.md", os.O_RDWR|os.O_CREATE, 0666)
+	file, err := os.OpenFile("./lib/thread.md", os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		log.Print("e:", err)
 	}
