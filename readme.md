@@ -113,7 +113,7 @@ func func displayname(t *m.Status) string {
 ``
 
 ## upageフォルダ
--[PuerkitoBio/goquery][14]
+- [PuerkitoBio/goquery][14]
 goqueryを使い、「VIPでテキストサイトしようぜ」避難所からスクレイピングしようとしています。
 現状、txtfile化は成功。Markdownかなにかで吐き出して別のプログラムからアクセスし、Linkとして整形しようと思います。
 

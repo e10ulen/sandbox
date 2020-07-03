@@ -36,13 +36,13 @@ func main() {
 	//	一個ずつの投稿を取得する
 	selection := doc.Find("dl.thread")
 	innerselection := selection.Find("a")
-	innerselection.Each(func(index int, s *goquery.Selection) {
+	innerselection.Each(func(_ int, s *goquery.Selection) {
 		//	URL取得部分
-
 		updateurl, _ := s.Attr("href")
+
 		//	置換で間違って入ってる、mailto:sageを除去。
 		replaceURL := strings.Replace(updateurl, "mailto:sage", "", -1)
-		file.WriteString("[link](" + replaceURL + ")\n")
+		file.WriteString(replaceURL + "\n")
 
 	})
 }
