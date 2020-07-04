@@ -1,8 +1,8 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -47,6 +47,7 @@ func writeAge() {
 	selection := doc.Find("dl.thread")
 	innerselection := selection.Find("a")
 	innerselection.Each(func(_ int, s *goquery.Selection) {
+
 		//	URL取得部分
 		updateurl, _ := s.Attr("href")
 
@@ -59,10 +60,29 @@ func writeAge() {
 
 //	読み込み処理
 func readAge() {
-	data, err := ioutil.ReadFile("thread.md")
+	data, err := os.Open("thread.md")
 	if err != nil {
 		log.Print("e: ", err)
 		return
 	}
-	fmt.Println(string(data))
+	defer data.Close()
+	scanner := bufio.NewScanner(data)
+	for scanner.Scan() {
+		logging := fmt.Sprint(scanner.Text())
+		fmt.Println(logging)
+		log.Print("d: Debug")
+	}
+	//	logging := URL
+	/*
+	   fp, err := os.Open(fileName)
+	   if err != nil {
+	       panic(err)
+	   }
+	   defer fp.Close()
+
+	   scanner := bufio.NewScanner(fp)
+	   for scanner.Scan() {
+	       fmt.Println(scanner.Text())
+	   }
+	*/
 }
