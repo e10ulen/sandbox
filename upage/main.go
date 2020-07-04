@@ -15,6 +15,7 @@ import (
 //	スレッドURLv
 var threadURL = "http://dawnlight.ovh/test/read.cgi/viptext/1520663900/"
 
+//var trashURLs = "http://tinyscenery.in/test/read.cgi/bbs/1491121427/"
 func main() {
 	//	ロガー
 	colog.Register()
@@ -51,11 +52,10 @@ func writeAge() {
 		//	URL取得部分
 		updateurl, _ := s.Attr("href")
 
-		//	置換で間違って入ってる、mailto:sageを除去。
 		replaceURL3 := strings.Replace(updateurl, "mailto:sage", "", -1)
-		replaceURL2 := strings.Replace(replaceURL3, "http://tinyscenery.in/test/read.cgi/bbs/1491121427/", "", -1)
-		replaceURL1 := strings.Replace(replaceURL2, "http://example.com/", "", -1)
-		replaceURL := strings.TrimSpace(replaceURL1)
+		replaceURL2 := strings.Replace(replaceURL3, "http://tinyscenery.in/test/read.cgi/bbs/1491121427/", "", 1)
+		replaceURL1 := strings.Replace(replaceURL2, "http://example.com/", "", 1)
+		replaceURL := strings.TrimRight(replaceURL1, "\n")
 		file.WriteString(replaceURL + "\n")
 
 	})
@@ -69,15 +69,17 @@ func readAge() {
 		log.Print("e: ", err)
 		return
 	}
+	log.Print("d: ")
 	defer data.Close()
 	scanner := bufio.NewScanner(data)
 	for scanner.Scan() {
 		logging := fmt.Sprint(scanner.Text())
-		fmt.Println(logging)
+		//fmt.Println(logging)
+		result := strings.TrimRight(logging, "\n")
 		log.Print("d: Debug")
-		res, err := http.Get(logging)
+		res, err := http.Get(result)
 		if err != nil {
-			log.Print("e: ", err)
+			log.Print("e: Scheme", err)
 		}
 		defer res.Body.Close()
 		doc, err := goquery.NewDocumentFromReader(res.Body)
