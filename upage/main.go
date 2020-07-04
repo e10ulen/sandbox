@@ -21,7 +21,7 @@ func main() {
 	//	Call Of & Write & Read
 	writeAge()
 	readAge()
-	readAgeTitle()
+	//readAgeTitle()
 }
 
 //	書き込み処理
@@ -59,46 +59,10 @@ func writeAge() {
 
 //	読み込み処理
 func readAge() {
-	data, err := ioutil.ReadFile("thread.txt")
+	data, err := ioutil.ReadFile("thread.md")
 	if err != nil {
 		log.Print("e: ", err)
 		return
 	}
 	fmt.Println(string(data))
-}
-
-//	読み込んでタイトルを取得する。
-func readAgeTitle() {
-	colog.Register()
-	data, err := os.Open("thread.txt")
-	if err != nil {
-		log.Print("e: ", err)
-		return
-	}
-	defer data.Close()
-
-	client := new(http.Client)
-	buf := make([]byte, 255)
-	readage, err := data.Read(buf)
-	//	スレッド取得に失敗した際のエラー
-	read, err := http.Get(string(readage))
-	if err != nil {
-		log.Print("p: ", err)
-	}
-	//	通常処理
-	defer read.Body.Close()
-	for _, v := range read {
-
-		doc, err := goquery.NewDocumentFromReader(read.Body)
-		if err != nil {
-			log.Print("e: ")
-		}
-		//	titile := doc.Find("head > titile")
-		news := doc.Find("body > h1")
-		news.Each(func(_ int, s *goquery.Selection) {
-			fmt.Println(s)
-		})
-		//
-	}
-
 }
