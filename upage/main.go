@@ -52,7 +52,10 @@ func writeAge() {
 		updateurl, _ := s.Attr("href")
 
 		//	置換で間違って入ってる、mailto:sageを除去。
-		replaceURL := strings.Replace(updateurl, "mailto:sage", "", -1)
+		replaceURL3 := strings.Replace(updateurl, "mailto:sage", "", -1)
+		replaceURL2 := strings.Replace(replaceURL3, "http://tinyscenery.in/test/read.cgi/bbs/1491121427/", "", -1)
+		replaceURL1 := strings.Replace(replaceURL2, "http://example.com/", "", -1)
+		replaceURL := strings.TrimSpace(replaceURL1)
 		file.WriteString(replaceURL + "\n")
 
 	})
@@ -60,6 +63,7 @@ func writeAge() {
 
 //	読み込み処理
 func readAge() {
+	const sleepInterval = 10
 	data, err := os.Open("thread.md")
 	if err != nil {
 		log.Print("e: ", err)
@@ -71,18 +75,15 @@ func readAge() {
 		logging := fmt.Sprint(scanner.Text())
 		fmt.Println(logging)
 		log.Print("d: Debug")
+		res, err := http.Get(logging)
+		if err != nil {
+			log.Print("e: ", err)
+		}
+		defer res.Body.Close()
+		doc, err := goquery.NewDocumentFromReader(res.Body)
+		if err != nil {
+			log.Print("e: ", err)
+		}
+		log.Print("d: ", doc)
 	}
-	//	logging := URL
-	/*
-	   fp, err := os.Open(fileName)
-	   if err != nil {
-	       panic(err)
-	   }
-	   defer fp.Close()
-
-	   scanner := bufio.NewScanner(fp)
-	   for scanner.Scan() {
-	       fmt.Println(scanner.Text())
-	   }
-	*/
 }
