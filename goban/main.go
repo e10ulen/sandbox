@@ -6,47 +6,27 @@ import (
 	"github.com/eihigh/goban"
 )
 
+var (
+	grid = goban.NewGrid(
+		"		1fr		1fr		1fr",
+		"1fr	header	header	header",
+		"3fr side		content	",
+		"1fr	footer	footer	footer",
+	)
+)
+
 func main() {
-	goban.Main(app)
+	goban.Main(app, view)
 }
 
 func app(_ context.Context, es goban.Events) error {
-	v := func() {
-		b := goban.Screen()
-		b.Puts("Press any key to open popup")
-		b.Puts("Ctrl+C to exit.")
-	}
-	goban.PushViewFunc(v)
-
-	for {
-		goban.Show()
-		es.ReadKey()
-		popup(es)
-	}
-}
-
-func popup(es goban.Events) {
-	//  ポップアップ処理
-	v := func() {
-		b := goban.NewBox(0, 0, 40, 5).Enclose("popup window")
-		b.Prints("Press any key to close Popup")
-	}
-
-	goban.PushViewFunc(v)
-	defer goban.PopView()
-
 	goban.Show()
 	es.ReadKey()
-}
-
-/*
-func app(_ context.Context, es goban.Events) error {
-  goban.Show()
-  es.ReadKey()
-  return nil
+	return nil
 }
 
 func view() {
-  goban.Screen().Enclose("hello").Prints("Hello World\nPress any key to exit.")
+	b := goban.Screen().Enclose("")
+	header := b.GridItem(grid, "header").DrawSides("", 0, 0, 0, 1)
+	header.Prints("Header")
 }
-*/
