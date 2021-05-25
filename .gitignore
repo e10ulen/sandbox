@@ -1,3 +1,4 @@
 msd/mastodon.yaml
 
+*/go.*
 discord/config.json
