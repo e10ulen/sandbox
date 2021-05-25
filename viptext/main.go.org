@@ -1,0 +1,31 @@
+package main
+
+import (
+	"bufio"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
+)
+
+func main() {
+
+	resp, _ := http.Get("http://dawnlight.ovh/viptext/#ui-tabs-2")
+	body, _ := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+
+	reader := transform.NewReader(body, japanese.ShiftJIS.NewDecoder())
+
+	tee := io.TeeReader(reader, newbody)
+	s := bufio.NewScanner(tee)
+	for s.Scan() {
+	}
+	if err := s.Err(); err != nil {
+		log.Fatal(err)
+	}
+	println(string(s))
+
+}

@@ -112,6 +112,20 @@ func func displayname(t *m.Status) string {
 
 ``
 
+##  discordフォルダ
+example.config.jsonをconfig.jsonにリネームして、
+- [Discord/Developer][16]
+ここでBotアカウントを作成しDiscordサーバーに招待して、アクセストークンを取得します。
+詳細は下記を参照してください。
+- [Discord Botアカウント初期設定ガイド for Developer][15]
+適宜example.config.jsonを書き換え、実行すると、全チャンネルのテキストを取得します。それだけのbotです（改修予定）
+
+##  fakeStatusChangeフォルダ
+- [カフェでプログラミングしてる風（でも何もやってない）Java（クソ）コード][17]
+これのgolang版です。しかもStatusChangeしか実装してません。
+コンパイルが動いてる風版はそのうち実装します。
+（ちなみにウンコードだと思います）
+
 ## upageフォルダ
 - [PuerkitoBio/goquery][14]
 goqueryを使い、「VIPでテキストサイトしようぜ」避難所からスクレイピングしようとしています。
@@ -140,3 +154,6 @@ git commit を適宣楽にしようとして作ってるgolang書き始めた時
 [12]:https://github.com/mitchellh/go-homedir
 [13]:https://github.com/mattn/go-mastodon
 [14]:https://github.com/PuerkitoBio/goquery
+[15]:https://qiita.com/1ntegrale9/items/cb285053f2fa5d0cccdf
+[16]:https://discord.com/developers/applications
+[17]:https://qiita.com/3S_Laboo/items/660883a0184dabaea65b
