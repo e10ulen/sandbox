@@ -1,2 +1,3 @@
 msd/mastodon.yaml
-discord/token.yaml
+
+discord/config.json
